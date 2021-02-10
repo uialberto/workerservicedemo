@@ -27,6 +27,7 @@ namespace WorkerServiceSample
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             client.Dispose();
+            _logger.LogInformation("Servicio ha sido detenido....")
             return base.StopAsync(cancellationToken);
         }
 

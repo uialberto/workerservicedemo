@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
+using Serilog.Events;
 
 namespace WorkerServiceSample
 {
@@ -14,7 +15,7 @@ namespace WorkerServiceSample
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
                 .WriteTo.File(@"c:\logs\WorkerServiceSample\logfile.txt")
                 .CreateLogger();
@@ -43,6 +44,7 @@ namespace WorkerServiceSample
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
-                });
+                })
+                .UseSerilog();
     }
 }
