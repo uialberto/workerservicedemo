@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace WorkerServiceSample
 {
-    public class Worker : BackgroundService
+    public class WorkerStatus : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<WorkerStatus> _logger;
         private HttpClient client;
-        public Worker(ILogger<Worker> logger)
+        public WorkerStatus(ILogger<WorkerStatus> logger)
         {
             _logger = logger;
         }
@@ -27,7 +27,7 @@ namespace WorkerServiceSample
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             client.Dispose();
-            _logger.LogInformation("Servicio ha sido detenido....");
+            _logger.LogInformation("Servicio WorkerStatus ha sido detenido....");
             return base.StopAsync(cancellationToken);
         }
 
@@ -35,14 +35,14 @@ namespace WorkerServiceSample
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var result = await client.GetAsync("https://develop.farmacorp.com/apishopify/");
+                var result = await client.GetAsync("https://develop.farmacorp.com/apifarmapub/");
                 if (result.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation("API Shopify is Up. StatusCode: {StatusCode}", result.StatusCode);
+                    _logger.LogInformation("API Farmapub is Up. StatusCode: {StatusCode}", result.StatusCode);
                 }
                 else
                 {
-                    _logger.LogError("API Shopify is Down. StatusCode: {StatusCode}", result.StatusCode);
+                    _logger.LogError("API Farmapub is Down. StatusCode: {StatusCode}", result.StatusCode);
                 }
                 //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(5000, stoppingToken);

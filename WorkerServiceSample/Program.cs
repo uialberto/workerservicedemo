@@ -44,6 +44,7 @@ namespace WorkerServiceSample
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
+                    services.AddHostedService<WorkerStatus>();
                 })
                 .UseSerilog();
     }
